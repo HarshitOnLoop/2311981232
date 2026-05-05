@@ -1,5 +1,3 @@
-// ─── Notification Domain Model ────────────────────────────────────────────────
-
 export type NotificationType = "info" | "warning" | "alert" | "success";
 export type NotificationPriority = "low" | "medium" | "high";
 

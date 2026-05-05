@@ -27,7 +27,7 @@ export default function Home() {
       <main className="main-content">
         <aside className="sidebar">
           <CreateNotification />
-          
+
           <div className="stats-card">
             <h3>Overview</h3>
             <div className="stat-row">

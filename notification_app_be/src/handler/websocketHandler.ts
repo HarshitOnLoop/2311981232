@@ -5,9 +5,6 @@ import { Log } from "../middleware/logger";
 let wss: WebSocketServer;
 const clients: Set<WebSocket> = new Set();
 
-/**
- * Attaches a WebSocket server to the existing HTTP server.
- */
 export function initWebSocket(server: Server): void {
   wss = new WebSocketServer({ server, path: "/ws" });
 
@@ -26,16 +23,12 @@ export function initWebSocket(server: Server): void {
       clients.delete(ws);
     });
 
-    // Send a welcome ping
     ws.send(JSON.stringify({ event: "connected", data: { message: "WebSocket connection established" } }));
   });
 
   Log("backend", "info", "handler", "WebSocket server initialised on path /ws");
 }
 
-/**
- * Broadcasts a message to all connected WebSocket clients.
- */
 export function broadcast(payload: object): void {
   const message = JSON.stringify(payload);
   let sent = 0;

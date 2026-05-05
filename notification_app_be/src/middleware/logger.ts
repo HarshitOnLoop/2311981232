@@ -1,8 +1,6 @@
 import axios from "axios";
 import { config } from "../config";
 
-// ─── Types ────────────────────────────────────────────────────────────────────
-
 type Stack = "backend" | "frontend";
 type Level = "debug" | "info" | "warn" | "error" | "fatal";
 type Package =
@@ -10,8 +8,6 @@ type Package =
   | "handler" | "repository" | "route" | "service"
   | "api" | "component" | "hook" | "page" | "state" | "style"
   | "auth" | "config" | "middleware" | "utils";
-
-// ─── Token Cache (local to avoid circular imports) ────────────────────────────
 
 interface TokenCache {
   token: string;
@@ -37,17 +33,6 @@ async function _getToken(): Promise<string> {
   return _tokenCache.token;
 }
 
-// ─── Log Function ─────────────────────────────────────────────────────────────
-
-/**
- * Log — sends a structured log entry to the Affordmed evaluation service.
- * Never throws; logging failures are silently swallowed to protect app stability.
- *
- * @param stack   "backend" | "frontend"
- * @param level   "debug" | "info" | "warn" | "error" | "fatal"
- * @param pkg     the architectural package/layer (e.g., "service", "db")
- * @param message descriptive message with relevant runtime context
- */
 export async function Log(
   stack: Stack,
   level: Level,
@@ -62,6 +47,6 @@ export async function Log(
       { headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" } }
     );
   } catch {
-    // Silently fail — logging must never crash the application
+
   }
 }

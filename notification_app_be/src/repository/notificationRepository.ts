@@ -7,8 +7,6 @@ import {
   NotificationStats,
 } from "../domain/notification";
 
-// ─── Raw DB Row Type ──────────────────────────────────────────────────────────
-
 interface NotificationRow {
   id: string;
   title: string;
@@ -35,11 +33,6 @@ function rowToNotification(row: NotificationRow): Notification {
   };
 }
 
-// ─── Repository ───────────────────────────────────────────────────────────────
-
-/**
- * Persists a new notification record to the database.
- */
 export async function createNotification(
   dto: CreateNotificationDTO
 ): Promise<Notification> {
@@ -58,9 +51,6 @@ export async function createNotification(
   return rowToNotification(row as NotificationRow);
 }
 
-/**
- * Retrieves all notifications for a given user, ordered newest first.
- */
 export async function getNotificationsByUser(userId: string): Promise<Notification[]> {
   const db = getDb();
   const rows = await db.all("SELECT * FROM notifications WHERE user_id = ? ORDER BY created_at DESC", [userId]);
@@ -69,9 +59,6 @@ export async function getNotificationsByUser(userId: string): Promise<Notificati
   return rows.map((r) => rowToNotification(r as NotificationRow));
 }
 
-/**
- * Retrieves a single notification by its ID.
- */
 export async function getNotificationById(id: string): Promise<Notification | null> {
   const db = getDb();
   const row = await db.get("SELECT * FROM notifications WHERE id = ?", [id]);
@@ -82,9 +69,6 @@ export async function getNotificationById(id: string): Promise<Notification | nu
   return rowToNotification(row as NotificationRow);
 }
 
-/**
- * Marks a notification as read.
- */
 export async function markAsRead(id: string): Promise<Notification | null> {
   const db = getDb();
   const now = new Date().toISOString();
@@ -100,9 +84,6 @@ export async function markAsRead(id: string): Promise<Notification | null> {
   return rowToNotification(row as NotificationRow);
 }
 
-/**
- * Marks ALL notifications for a user as read.
- */
 export async function markAllAsRead(userId: string): Promise<number> {
   const db = getDb();
   const now = new Date().toISOString();
@@ -112,9 +93,6 @@ export async function markAllAsRead(userId: string): Promise<number> {
   return result.changes || 0;
 }
 
-/**
- * Deletes a notification by ID.
- */
 export async function deleteNotification(id: string): Promise<boolean> {
   const db = getDb();
   const result = await db.run("DELETE FROM notifications WHERE id = ?", [id]);
@@ -128,9 +106,6 @@ export async function deleteNotification(id: string): Promise<boolean> {
   return true;
 }
 
-/**
- * Aggregates notification statistics for a user.
- */
 export async function getStats(userId: string): Promise<NotificationStats> {
   const db = getDb();
 

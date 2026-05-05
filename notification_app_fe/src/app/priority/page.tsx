@@ -80,10 +80,10 @@ export default function PriorityInbox() {
         ) : (
           <div className="notification-list">
             {filteredNotifications.map((notif, index) => {
-              // Convert API model to our UI styling
+
               const priorityClass = notif.Type === "Placement" ? "high" : notif.Type === "Result" ? "medium" : "low";
               const typeClass = notif.Type === "Placement" ? "type-alert" : notif.Type === "Result" ? "type-warning" : "type-info";
-              
+
               return (
                 <div key={`${notif.ID}-${index}`} className={`notification-item unread ${typeClass}`}>
                   <div className="notification-content">

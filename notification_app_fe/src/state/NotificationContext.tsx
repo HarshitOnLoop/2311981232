@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback, createContext, useContext } from "react";
 import { Notification, NotificationStats } from "../types";
-import { useWebSocket } from "./useWebSocket";
+import { useWebSocket } from "../hooks/useWebSocket";
 import { logFrontend } from "../api/logger";
 
 interface NotificationContextType {
@@ -60,7 +60,6 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
     refresh();
   }, [refresh]);
 
-  // WebSocket Integration
   const handleWsMessage = useCallback((message: any) => {
     const { event, data } = message;
     logFrontend("debug", "hook", `Received WS event: ${event}`);
@@ -68,7 +67,7 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
     switch (event) {
       case "new_notification":
         setNotifications((prev) => [data, ...prev]);
-        fetchStats(); // Update stats
+        fetchStats();
         break;
       case "notification_read":
         setNotifications((prev) => prev.map((n) => (n.id === data.id ? data : n)));

@@ -2,8 +2,6 @@ import axios from "axios";
 import { config } from "../config";
 import { Log } from "../middleware/logger";
 
-// ─── Token Cache ──────────────────────────────────────────────────────────────
-
 interface TokenCache {
   token: string;
   expiresAt: number;
@@ -11,9 +9,6 @@ interface TokenCache {
 
 let tokenCache: TokenCache | null = null;
 
-/**
- * Returns a valid Bearer token, re-fetching from the evaluation service when expired.
- */
 export async function getAccessToken(): Promise<string> {
   const now = Date.now() / 1000;
 

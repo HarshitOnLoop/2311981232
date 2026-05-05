@@ -34,8 +34,6 @@ export function useWebSocket({ url, onMessage }: WebSocketProps) {
       logFrontend("warn", "hook", `WebSocket disconnected from ${url}`);
     };
 
-
-
     return () => {
       if (wsRef.current) {
         wsRef.current.close();

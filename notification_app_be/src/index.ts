@@ -9,10 +9,9 @@ import { initWebSocket } from "./handler/websocketHandler";
 import notificationRoutes from "./route/notificationRoutes";
 
 async function bootstrap() {
-  // ── 1. Database ─────────────────────────────────────────────────────────────
+
   await initDb();
 
-  // ── 2. Express App ──────────────────────────────────────────────────────────
   const app = express();
 
   app.use(cors({ origin: config.frontendUrl, methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"] }));
@@ -20,7 +19,6 @@ async function bootstrap() {
   app.use(express.urlencoded({ extended: true }));
   app.use(requestLogger);
 
-  // ── 3. Routes ────────────────────────────────────────────────────────────────
   app.get("/health", (_req, res) => {
     res.json({ status: "ok", timestamp: new Date().toISOString() });
   });
@@ -30,7 +28,6 @@ async function bootstrap() {
   app.use(notFoundHandler);
   app.use(errorHandler);
 
-  // ── 4. HTTP + WebSocket Server ───────────────────────────────────────────────
   const server = http.createServer(app);
   initWebSocket(server);
 

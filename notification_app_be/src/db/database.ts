@@ -5,9 +5,6 @@ import { Log } from "../middleware/logger";
 
 let db: Database<sqlite3.Database, sqlite3.Statement>;
 
-/**
- * Initialises the SQLite database connection and runs schema migrations.
- */
 export async function initDb(): Promise<Database> {
   await Log("backend", "info", "db", `Initialising SQLite database at path: ${config.dbPath}`);
 
@@ -19,7 +16,6 @@ export async function initDb(): Promise<Database> {
   await db.exec("PRAGMA journal_mode = WAL;");
   await db.exec("PRAGMA foreign_keys = ON;");
 
-  // ── Schema ──────────────────────────────────────────────────────────────────
   await db.exec(`
     CREATE TABLE IF NOT EXISTS notifications (
       id          TEXT PRIMARY KEY,

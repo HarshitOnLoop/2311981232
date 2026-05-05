@@ -3,8 +3,6 @@ import * as service from "../service/notificationService";
 import { Log } from "../middleware/logger";
 import { CreateNotificationDTO } from "../domain/notification";
 
-// ─── GET /api/notifications ───────────────────────────────────────────────────
-
 export async function listNotifications(req: Request, res: Response): Promise<void> {
   const userId = (req.query.userId as string) || "default";
   await Log("backend", "info", "controller", `GET /api/notifications — userId=${userId}`);
@@ -18,8 +16,6 @@ export async function listNotifications(req: Request, res: Response): Promise<vo
     res.status(500).json({ success: false, error: "Failed to fetch notifications" });
   }
 }
-
-// ─── POST /api/notifications ──────────────────────────────────────────────────
 
 export async function createNotification(req: Request, res: Response): Promise<void> {
   const { title, message, type, priority, userId } = req.body;
@@ -48,8 +44,6 @@ export async function createNotification(req: Request, res: Response): Promise<v
   }
 }
 
-// ─── GET /api/notifications/priority ──────────────────────────────────────────
-
 export async function getPriorityInbox(req: Request, res: Response): Promise<void> {
   await Log("backend", "info", "controller", "GET /api/notifications/priority");
 
@@ -63,8 +57,6 @@ export async function getPriorityInbox(req: Request, res: Response): Promise<voi
     res.status(500).json({ success: false, error: "Failed to fetch priority inbox" });
   }
 }
-
-// ─── GET /api/notifications/:id ───────────────────────────────────────────────
 
 export async function getNotification(req: Request, res: Response): Promise<void> {
   const { id } = req.params;
@@ -84,8 +76,6 @@ export async function getNotification(req: Request, res: Response): Promise<void
   }
 }
 
-// ─── PUT /api/notifications/:id/read ─────────────────────────────────────────
-
 export async function markNotificationRead(req: Request, res: Response): Promise<void> {
   const { id } = req.params;
   await Log("backend", "info", "controller", `PUT /api/notifications/${id}/read`);
@@ -104,8 +94,6 @@ export async function markNotificationRead(req: Request, res: Response): Promise
   }
 }
 
-// ─── PUT /api/notifications/read-all ─────────────────────────────────────────
-
 export async function markAllRead(req: Request, res: Response): Promise<void> {
   const userId = (req.query.userId as string) || "default";
   await Log("backend", "info", "controller", `PUT /api/notifications/read-all — userId=${userId}`);
@@ -119,8 +107,6 @@ export async function markAllRead(req: Request, res: Response): Promise<void> {
     res.status(500).json({ success: false, error: "Failed to mark all as read" });
   }
 }
-
-// ─── DELETE /api/notifications/:id ───────────────────────────────────────────
 
 export async function deleteNotification(req: Request, res: Response): Promise<void> {
   const { id } = req.params;
@@ -139,8 +125,6 @@ export async function deleteNotification(req: Request, res: Response): Promise<v
     res.status(500).json({ success: false, error: "Failed to delete notification" });
   }
 }
-
-// ─── GET /api/notifications/stats ────────────────────────────────────────────
 
 export async function getStats(req: Request, res: Response): Promise<void> {
   const userId = (req.query.userId as string) || "default";
